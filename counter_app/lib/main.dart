@@ -1,18 +1,23 @@
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
-//ctrl + . sobre el error para ver opciones
+//ctrl + . sobre el error o warining para ver opciones
 //MyApp es un widget
 class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     //MaterialApp es otro widget
-    return MaterialApp(
+    //cuando sabes que algo no va a cambiar, se aconseja que el padre mas alto posible sea la constante (const)
+    return const MaterialApp(
+      //Center es otro widget
       home: Center(
-        child: Text('Hola Mundo')
+        //Text es otro widget
+        child: Text('Hola Mundo'),
       )
     );
   }
