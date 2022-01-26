@@ -11,6 +11,7 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    const fontSize30 = TextStyle(fontSize: 30);
     //Solo estos widgets son reconocidos en este Build Context,
     //cualquier otro build context que este afuera no reconoce estos widgets
     return Scaffold(
@@ -26,8 +27,8 @@ class HomeScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           //crossAxisAlignment: CrossAxisAlignment.start,
           children: const <Widget>[
-            Text('Clicks Counter'),
-            Text('0'),
+            Text('Clicks Counter', style: fontSize30),
+            Text('0', style: fontSize30),
           ],
         ),
       ),
