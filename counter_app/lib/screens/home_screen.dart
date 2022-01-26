@@ -13,10 +13,23 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     //Solo estos widgets son reconocidos en este Build Context,
     //cualquier otro build context que este afuera no reconoce estos widgets
-    return const Scaffold(
-      backgroundColor: Colors.lightBlue,
-      body: Center(
-        child: Text('Home Screen'),
+    return Scaffold(
+      //appBar: widget con cierto tamanio definido
+      appBar: AppBar(
+        title: const Center(child: Text('Home Screen')),
+        elevation: 10.0, //sombrita en la barra del titulo
+      ),
+      body:
+          //Para tener un widget con mas de un child puedes usar Column o Row
+          Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          //crossAxisAlignment: CrossAxisAlignment.start,
+          children: const <Widget>[
+            Text('Clicks Counter'),
+            Text('0'),
+          ],
+        ),
       ),
     );
   }
