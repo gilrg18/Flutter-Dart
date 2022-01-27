@@ -29,13 +29,42 @@ class _CounterScreenState extends State<CounterScreen> {
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        child: const Icon(Icons.add),
-        onPressed: () {
-          counter++;
-          //setState(funcion anonima), setState(()=>{})
-          setState(() {});
-        },
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      floatingActionButton: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          FloatingActionButton(
+            child: const Icon(Icons.exposure_minus_1),
+            onPressed: () {
+              counter--;
+              //setState(funcion anonima), setState(()=>{})
+              //setState notifica que hubo un cambio interno en el estado,
+              //lo cual manda a redibujar el widget
+              setState(() {});
+            },
+          ),
+          //SizedBox: widget auxiliar para hacer espacio entre widgets
+          // const SizedBox(
+          //   width: 30,
+          // ),
+          FloatingActionButton(
+            child: const Icon(Icons.restore_sharp),
+            onPressed: () {
+              counter = 0;
+              setState(() {});
+            },
+          ),
+          // const SizedBox(
+          //   width: 30,
+          // ),
+          FloatingActionButton(
+            child: const Icon(Icons.exposure_plus_1),
+            onPressed: () {
+              counter++;
+              setState(() {});
+            },
+          ),
+        ],
       ),
     );
   }
