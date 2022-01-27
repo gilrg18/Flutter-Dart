@@ -14,6 +14,7 @@ class HomeScreen extends StatelessWidget {
     const fontSize30 = TextStyle(fontSize: 30);
     //Solo estos widgets son reconocidos en este Build Context,
     //cualquier otro build context que este afuera no reconoce estos widgets
+    int counter = 0;
     return Scaffold(
       //appBar: widget con cierto tamanio definido
       appBar: AppBar(
@@ -26,18 +27,21 @@ class HomeScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           //crossAxisAlignment: CrossAxisAlignment.start,
-          children: const <Widget>[
-            Text('Clicks Counter', style: fontSize30),
-            Text('0', style: fontSize30),
+          children: <Widget>[
+            const Text('Clicks Counter', style: fontSize30),
+            Text('$counter', style: fontSize30),
           ],
         ),
       ),
+      //Posicion Boton
+      // floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       //Boton
       floatingActionButton: FloatingActionButton(
         child: const Icon(
             Icons.add), //Icon, widget especializado en mostrar iconos
         onPressed: () {
-          print("Hola");
+          print('Hola: $counter');
+          counter++;
         },
       ),
     );
