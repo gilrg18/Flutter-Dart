@@ -11,6 +11,21 @@ class _CounterScreenState extends State<CounterScreen> {
   //propiedad counter
   int counter = 0;
 
+  void increase() {
+    counter++;
+    setState(() {});
+  }
+
+  void decrease() {
+    counter--;
+    setState(() {});
+  }
+
+  void restart() {
+    counter = 0;
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     const fontSize30 = TextStyle(fontSize: 30);
@@ -30,33 +45,47 @@ class _CounterScreenState extends State<CounterScreen> {
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: const CustomFloatingActions(),
+      floatingActionButton: CustomFloatingActions(
+          //increase: referencia a la funcion
+          //increase(): ejececuta la funcion
+          increaseFn: increase,
+          decreaseFn: decrease,
+          restartFn: restart),
     );
   }
 }
 
 class CustomFloatingActions extends StatelessWidget {
+  //increaseFn no puede ser constante porque va a cambiar
+  //cuando la app este ejecutandose
+  final Function increaseFn;
+  final Function decreaseFn;
+  final Function restartFn;
+
   const CustomFloatingActions({
     Key? key,
+    required this.increaseFn,
+    required this.decreaseFn,
+    required this.restartFn,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: const [
+      children: [
         FloatingActionButton(
-          child: Icon(Icons.exposure_minus_1),
-          onPressed: null,
+          child: const Icon(Icons.exposure_minus_1),
+          onPressed: () => decreaseFn(),
         ),
         FloatingActionButton(
-          child: Icon(Icons.restore_sharp),
-          onPressed: null,
+          child: const Icon(Icons.restore_sharp),
+          onPressed: () => restartFn(),
         ),
         FloatingActionButton(
-          child: Icon(Icons.exposure_plus_1),
-          onPressed: null,
-        )
+          child: const Icon(Icons.exposure_plus_1),
+          onPressed: () => increaseFn(),
+        ),
       ],
     );
   }
