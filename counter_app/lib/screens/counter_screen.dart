@@ -30,20 +30,34 @@ class _CounterScreenState extends State<CounterScreen> {
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          FloatingActionButton(
-              child: const Icon(Icons.exposure_minus_1),
-              onPressed: () => setState(() => counter--)),
-          FloatingActionButton(
-              child: const Icon(Icons.restore_sharp),
-              onPressed: () => setState(() => counter = 0)),
-          FloatingActionButton(
-              child: const Icon(Icons.exposure_plus_1),
-              onPressed: () => setState(() => counter++)),
-        ],
-      ),
+      floatingActionButton: const CustomFloatingActions(),
+    );
+  }
+}
+
+class CustomFloatingActions extends StatelessWidget {
+  const CustomFloatingActions({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: const [
+        FloatingActionButton(
+          child: Icon(Icons.exposure_minus_1),
+          onPressed: null,
+        ),
+        FloatingActionButton(
+          child: Icon(Icons.restore_sharp),
+          onPressed: null,
+        ),
+        FloatingActionButton(
+          child: Icon(Icons.exposure_plus_1),
+          onPressed: null,
+        )
+      ],
     );
   }
 }
