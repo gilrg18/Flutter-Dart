@@ -21,19 +21,19 @@ In this section we will review the following topics:
 
 - ListTiles
 
-- Listas y map
+- Lists and map
 
-- Rutas
+- Routes
 
-- Json hacia mapas
+- Json to maps
 
 - Future Builder
 
-- Lectura de archivos JSON
+- Read JSON files
 
-- Iconos
+- Icons
 
-- Imágenes
+- Images
 
 - Avatars
 
