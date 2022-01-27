@@ -42,6 +42,8 @@ class HomeScreen extends StatelessWidget {
         onPressed: () {
           print('Hola: $counter');
           counter++;
+          //Si se actualiza la variable pero como es un stateless widget
+          //no se redibuja el widget, por lo que siempre mouestra 0
         },
       ),
     );
