@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class Listview1Screen extends StatelessWidget {
+  final animes = const ['AoT', 'DoS', 'Naruto', 'DBZ'];
+
   const Listview1Screen({Key? key}) : super(key: key);
 
   @override
@@ -9,10 +11,16 @@ class Listview1Screen extends StatelessWidget {
         appBar: AppBar(
           title: const Center(child: Text('Listview Tipo 1')),
         ),
-        body: ListView(children: const [
-          Text('Hola Mundo'),
-          Text('Hola Mundo'),
-          Text('Hola Mundo'),
-        ]));
+        body: ListView(
+          children: [
+            ...animes
+                .map((anime) => ListTile(
+                      title: Text(anime),
+                      trailing: const Icon(Icons.arrow_forward_ios_outlined),
+                    ))
+                .toList()
+            // ListTile(leading: Icon(Icons.access_alarm), title: Text('Wtf'))
+          ],
+        ));
   }
 }
