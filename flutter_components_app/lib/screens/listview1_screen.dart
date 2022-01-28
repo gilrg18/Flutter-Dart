@@ -18,8 +18,9 @@ class Listview1Screen extends StatelessWidget {
                       title: Text(anime),
                       trailing: const Icon(Icons.arrow_forward_ios_outlined),
                     ))
-                .toList()
-            // ListTile(leading: Icon(Icons.access_alarm), title: Text('Wtf'))
+                .toList(),
+            //Divider: linea separadora
+            Divider(),
           ],
         ));
   }
