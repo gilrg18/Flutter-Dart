@@ -9,14 +9,17 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    //se le quita la constante para que el mapa del route listview1
-    //pueda crearse en tiempo de ejecucion para definir las rutas
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Material App',
       initialRoute: AppRoutes.initialRoute,
       routes: AppRoutes.getAppRoutes(),
       onGenerateRoute: AppRoutes.onGenerateRoute,
+      theme: ThemeData.light().copyWith(
+          //Color primario
+          primaryColor: Colors.indigo,
+          //AppBar Theme
+          appBarTheme: const AppBarTheme(color: Colors.indigo, elevation: 0)),
     );
   }
 }
