@@ -19,7 +19,8 @@ class AppTheme {
         style: ElevatedButton.styleFrom(
             primary: Colors.indigo,
             shape: const StadiumBorder(),
-            elevation: 5)),
+            elevation: 5)
+      ),
   );
 
   static final ThemeData darkTheme = ThemeData.dark().copyWith(
