@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_components_app/widgets/widgets.dart';
 
 class InputsScreen extends StatelessWidget {
   const InputsScreen({Key? key}) : super(key: key);
@@ -15,15 +16,10 @@ class InputsScreen extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
           child: Column(
-            children: [
-              TextFormField(
-                autofocus: true,
-                initialValue: 'Gilberto',
-                //mayuscula al inicio de cada palabra
-                textCapitalization: TextCapitalization.words,
-                onChanged: (value) {
-                  print('value: $value');
-                },
+            children: const [
+              CustomInputField(
+                labelText: 'Nombre',
+                hintText: 'Nombre del usuario',
               ),
             ],
           ),
