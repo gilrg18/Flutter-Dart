@@ -6,6 +6,8 @@ class CustomInputField extends StatelessWidget {
   final String? helperText;
   final IconData? icon;
   final IconData? suffixIcon;
+  final TextInputType? keyboardType;
+  final bool obscureText;
 
   const CustomInputField({
     Key? key,
@@ -14,20 +16,24 @@ class CustomInputField extends StatelessWidget {
     this.helperText,
     this.icon,
     this.suffixIcon,
+    this.keyboardType,
+    this.obscureText = false,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
       autofocus: false,
-      initialValue: 'Gilberto',
+      initialValue: null,
       //mayuscula al inicio de cada palabra
       textCapitalization: TextCapitalization.words,
+      keyboardType: keyboardType,
+      obscureText: obscureText,
       onChanged: (value) {
         print('value: $value');
       },
       validator: (value) {
-        if (value == null) return 'Required value';
+        if (value == null || value.trim() == '') return 'Required value';
         return value.isEmpty ? 'Add username' : null;
       },
       autovalidateMode: AutovalidateMode.onUserInteraction,
