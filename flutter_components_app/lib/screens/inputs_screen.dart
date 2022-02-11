@@ -10,7 +10,7 @@ class InputsScreen extends StatelessWidget {
     final GlobalKey<FormState> myFormKey = GlobalKey<FormState>();
 
     final Map<String, String> formValues = {
-      'first_Name': 'Gilberto',
+      'first_name': 'Gilberto',
       'last_name': 'Rangel',
       'email': 'lol@lol.com',
       'password': '12345',
@@ -30,28 +30,41 @@ class InputsScreen extends StatelessWidget {
             key: myFormKey,
             child: Column(
               children: [
-                const CustomInputField(
-                    labelText: 'Nombre', hintText: 'Nombre del usuario'),
+                CustomInputField(
+                  labelText: 'Nombre',
+                  hintText: 'Nombre del usuario',
+                  formProperty: 'first_name',
+                  formValues: formValues,
+                ),
                 const SizedBox(height: 30),
-                const CustomInputField(
-                    labelText: 'Apellido', hintText: 'Apellido del usuario'),
+                CustomInputField(
+                  labelText: 'Apellido',
+                  hintText: 'Apellido del usuario',
+                  formProperty: 'last_name',
+                  formValues: formValues,
+                ),
                 const SizedBox(height: 30),
-                const CustomInputField(
+                // ignore: prefer_const_constructors
+                CustomInputField(
                   labelText: 'Correo',
                   hintText: 'Correo del usuario',
                   keyboardType: TextInputType.emailAddress,
+                  formProperty: 'email',
+                  formValues: formValues,
                 ),
                 const SizedBox(height: 30),
-                const CustomInputField(
+                CustomInputField(
                   labelText: 'Contraseña',
                   hintText: 'Contraseña del usuario',
                   obscureText: true,
+                  formProperty: 'password',
+                  formValues: formValues,
                 ),
                 const SizedBox(height: 30),
                 ElevatedButton(
                   child: const SizedBox(
                     width: double.infinity,
-                    child: Center(child: const Text('Save')),
+                    child: Center(child: Text('Save')),
                   ),
                   onPressed: () {
                     //quitar el teclado
