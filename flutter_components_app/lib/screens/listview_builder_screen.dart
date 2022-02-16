@@ -53,6 +53,14 @@ class _ListViewBuilderScreenState extends State<ListViewBuilderScreen> {
     setState(() {});
   }
 
+  Future<void> onRefresh() async {
+    await Future.delayed(const Duration(seconds: 2));
+    final lastId = imagesIds.last;
+    imagesIds.clear();
+    imagesIds.add(lastId + 1);
+    add5();
+  }
+
   @override
   Widget build(BuildContext context) {
     //ancho del dispositivo:
@@ -64,26 +72,30 @@ class _ListViewBuilderScreenState extends State<ListViewBuilderScreen> {
         removeBottom: true,
         child: Stack(
           children: [
-            ListView.builder(
-              physics: const BouncingScrollPhysics(),
-              controller: scrollController,
-              itemCount: imagesIds.length,
-              itemBuilder: (BuildContext context, int index) {
-                return FadeInImage(
-                  width: double.infinity, //toma todo el ancho posible
-                  height: 300,
-                  fit: BoxFit.cover,
-                  placeholder: const AssetImage('assets/jar-loading.gif'),
-                  image: NetworkImage(
-                      'https://picsum.photos/500/300?image=${imagesIds[index]}'),
-                );
-              },
+            RefreshIndicator(
+              color: AppTheme.primary,
+              onRefresh: onRefresh,
+              child: ListView.builder(
+                physics: const BouncingScrollPhysics(),
+                controller: scrollController,
+                itemCount: imagesIds.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return FadeInImage(
+                    width: double.infinity, //toma todo el ancho posible
+                    height: 300,
+                    fit: BoxFit.cover,
+                    placeholder: const AssetImage('assets/jar-loading.gif'),
+                    image: NetworkImage(
+                        'https://picsum.photos/500/300?image=${imagesIds[index]}'),
+                  );
+                },
+              ),
             ),
             if (isLoading)
               Positioned(
                 bottom: 40,
                 left: size.width * 0.5 -
-                    50, //la mitad de la pantalla(size.width x .5) menos la mitad del widget (100x.5)
+                    30, //la mitad de la pantalla(size.width x .5) menos la mitad del widget (100x.5)
                 child: const _LoadingIcon(),
               ),
           ],
@@ -102,8 +114,8 @@ class _LoadingIcon extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(10),
-      height: 100,
-      width: 100,
+      height: 60,
+      width: 60,
       decoration: BoxDecoration(
         color: Colors.white.withOpacity(0.9),
         shape: BoxShape.circle,
