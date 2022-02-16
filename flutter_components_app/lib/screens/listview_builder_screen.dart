@@ -37,6 +37,14 @@ class _ListViewBuilderScreenState extends State<ListViewBuilderScreen> {
     add5();
     isLoading = false;
     setState(() {});
+
+    if (scrollController.position.pixels + 100 <=
+        scrollController.position.maxScrollExtent) return;
+    scrollController.animateTo(
+      scrollController.position.pixels + 120,
+      duration: const Duration(milliseconds: 300),
+      curve: Curves.fastOutSlowIn,
+    );
   }
 
   void add5() {
@@ -71,12 +79,13 @@ class _ListViewBuilderScreenState extends State<ListViewBuilderScreen> {
                 );
               },
             ),
-            Positioned(
-              bottom: 40,
-              left: size.width * 0.5 -
-                  50, //la mitad de la pantalla(size.width x .5) menos la mitad del widget (100x.5)
-              child: _LoadingIcon(),
-            ),
+            if (isLoading)
+              Positioned(
+                bottom: 40,
+                left: size.width * 0.5 -
+                    50, //la mitad de la pantalla(size.width x .5) menos la mitad del widget (100x.5)
+                child: const _LoadingIcon(),
+              ),
           ],
         ),
       ),
