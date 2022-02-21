@@ -9,7 +9,7 @@
 - Providers
 - Streams
 - Infinite Horizontal Scroll
-- SearcDelegate
+- SearchDelegate
 
 This is a real application that we will eventually use to deploy to
 the app stores.
