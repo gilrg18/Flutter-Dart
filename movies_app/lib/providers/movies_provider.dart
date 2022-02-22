@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:movies_app/models/models.dart';
 
 class MoviesProvider extends ChangeNotifier {
   final String _apiKey = '02011706ae26c52811568a92a0c2f8ab';
@@ -21,8 +22,9 @@ class MoviesProvider extends ChangeNotifier {
     });
     // Await the http get response, then decode the json-formatted response.
     final response = await http.get(url);
-    final decodedData = json.decode(response.body);
+    final nowPlayingResponse = NowPlayingResponse.fromJson(response.body);
+
     //print(decodedData['dates']);
-    print(decodedData['results']);
+    print('Movie Title: ${nowPlayingResponse.results[1].title}');
   }
 }
