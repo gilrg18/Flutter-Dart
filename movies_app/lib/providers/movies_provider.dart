@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:movies_app/models/models.dart';
@@ -8,6 +6,8 @@ class MoviesProvider extends ChangeNotifier {
   final String _apiKey = '02011706ae26c52811568a92a0c2f8ab';
   final String _baseUrl = 'api.themoviedb.org';
   final String _language = 'es-ES';
+
+  List<Movie> onDisplayMovies = [];
 
   MoviesProvider() {
     print('MoviesProvider inicializado');
@@ -26,5 +26,8 @@ class MoviesProvider extends ChangeNotifier {
 
     //print(decodedData['dates']);
     print('Movie Title: ${nowPlayingResponse.results[1].title}');
+    onDisplayMovies = nowPlayingResponse.results;
+    //redibuja los widgets que utilizan la data al momento de que cambie la data
+    notifyListeners();
   }
 }
