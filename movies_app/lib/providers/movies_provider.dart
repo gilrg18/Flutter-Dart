@@ -8,10 +8,12 @@ class MoviesProvider extends ChangeNotifier {
   final String _language = 'es-ES';
 
   List<Movie> onDisplayMovies = [];
+  List<Movie> popularMovies = [];
 
   MoviesProvider() {
     print('MoviesProvider inicializado');
     getOnDisplayMovies();
+    getPopularMovies();
   }
 
   getOnDisplayMovies() async {
@@ -25,9 +27,24 @@ class MoviesProvider extends ChangeNotifier {
     final nowPlayingResponse = NowPlayingResponse.fromJson(response.body);
 
     //print(decodedData['dates']);
-    print('Movie Title: ${nowPlayingResponse.results[1].title}');
+    //print('Movie Title: ${nowPlayingResponse.results[1].title}');
     onDisplayMovies = nowPlayingResponse.results;
     //redibuja los widgets que utilizan la data al momento de que cambie la data
+    notifyListeners();
+  }
+
+  getPopularMovies() async {
+    var url = Uri.https(_baseUrl, '3/movie/popular', {
+      'api_key': _apiKey,
+      'language': _language,
+      'page': '1',
+    });
+    final response = await http.get(url);
+    final popularResponse = PopularResponse.fromJson(response.body);
+    //destructurar popularResponse para ir guardando todo en popular movies
+    //sin que se sobreescriba (... operador spread)
+    popularMovies = [...popularMovies, ...popularResponse.results];
+    //print(popularMovies[0]);
     notifyListeners();
   }
 }
