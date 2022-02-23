@@ -8,9 +8,8 @@ class DetailsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    //TODO: Cambiar luego por una instancia de movie
     final Movie movie = ModalRoute.of(context)!.settings.arguments as Movie;
-    print(movie.title);
+    //print(movie.title);
     return Scaffold(
       body: CustomScrollView(
         slivers: [
@@ -28,7 +27,8 @@ class DetailsScreen extends StatelessWidget {
               _Overview(movie: movie),
               _Overview(movie: movie),
               _Overview(movie: movie),
-              const CastingCards(),
+              //cargar actores dependiendo el movie id
+              CastingCards(movieId: movie.id),
             ]),
           ),
         ],
