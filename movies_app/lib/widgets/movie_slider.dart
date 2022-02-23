@@ -1,3 +1,5 @@
+// ignore_for_file: sized_box_for_whitespace
+
 import 'package:flutter/material.dart';
 import 'package:movies_app/models/models.dart';
 
@@ -13,7 +15,6 @@ class MovieSlider extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // ignore: sized_box_for_whitespace
     if (movies.isEmpty) {
       return Container(
         width: double.infinity,
