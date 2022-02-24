@@ -22,11 +22,6 @@ class DetailsScreen extends StatelessWidget {
               _Overview(movie: movie),
               _Overview(movie: movie),
               _Overview(movie: movie),
-              _Overview(movie: movie),
-              _Overview(movie: movie),
-              _Overview(movie: movie),
-              _Overview(movie: movie),
-              _Overview(movie: movie),
               //cargar actores dependiendo el movie id
               CastingCards(movieId: movie.id),
             ]),
