@@ -1,5 +1,8 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:movies_app/helpers/debouncer.dart';
 import 'package:movies_app/models/models.dart';
 
 class MoviesProvider extends ChangeNotifier {
@@ -12,6 +15,15 @@ class MoviesProvider extends ChangeNotifier {
   Map<int, List<Cast>> movieCast = {};
 
   int _popularPage = 0;
+
+  final debouncer = Debouncer(
+    duration: Duration(milliseconds: 500),
+  );
+
+  final StreamController<List<Movie>> _suggestionsStreamController =
+      StreamController.broadcast();
+  Stream<List<Movie>> get suggestionsStream =>
+      _suggestionsStreamController.stream;
 
   MoviesProvider() {
     //print('MoviesProvider inicializado');
@@ -77,4 +89,7 @@ class MoviesProvider extends ChangeNotifier {
 
     return searchResponse.results;
   }
+
+  //meter el valor del query cuando el usuario deja de escribir
+  void getSuggestionsByQuery(String searchTerm) {}
 }
