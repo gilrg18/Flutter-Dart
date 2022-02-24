@@ -31,7 +31,31 @@ class MovieSearchDelegate extends SearchDelegate {
 
   @override
   Widget buildResults(BuildContext context) {
-    return const Text('buildResults');
+    if (query.isEmpty) {
+      return _emptyContainer();
+    }
+
+    //print('http request');
+
+    final moviesProvider = Provider.of<MoviesProvider>(context, listen: false);
+    moviesProvider.getSuggestionsByQuery(query);
+
+    return StreamBuilder(
+      //el buildSuggestions se va a disparar cada que escribamos algo en el input
+      //pero este StreamBuilder se va a redibujar unicamente cuando nuestro suggestionsStream
+      //emite un valor
+      stream: moviesProvider.suggestionsStream,
+      builder: (_, AsyncSnapshot<List<Movie>> snapshot) {
+        if (!snapshot.hasData) return _emptyContainer();
+
+        final movies = snapshot.data!;
+
+        return ListView.builder(
+          itemCount: movies.length,
+          itemBuilder: (_, int index) => _MovieItem(movie: movies[index]),
+        );
+      },
+    );
   }
 
   Widget _emptyContainer() {
@@ -53,9 +77,10 @@ class MovieSearchDelegate extends SearchDelegate {
       return _emptyContainer();
     }
 
-    print('http request');
+    //print('http request');
 
     final moviesProvider = Provider.of<MoviesProvider>(context, listen: false);
+    moviesProvider.getSuggestionsByQuery(query);
 
     return StreamBuilder(
       //el buildSuggestions se va a disparar cada que escribamos algo en el input

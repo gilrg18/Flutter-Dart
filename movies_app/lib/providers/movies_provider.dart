@@ -17,7 +17,7 @@ class MoviesProvider extends ChangeNotifier {
   int _popularPage = 0;
 
   final debouncer = Debouncer(
-    duration: Duration(milliseconds: 500),
+    duration: const Duration(milliseconds: 500),
   );
 
   final StreamController<List<Movie>> _suggestionsStreamController =
@@ -91,5 +91,19 @@ class MoviesProvider extends ChangeNotifier {
   }
 
   //meter el valor del query cuando el usuario deja de escribir
-  void getSuggestionsByQuery(String searchTerm) {}
+  void getSuggestionsByQuery(String searchTerm) {
+    debouncer.value = '';
+    debouncer.onValue = (value) async {
+      //print('Valor a buscar: $value');
+      final results = await searchMovies(value);
+      _suggestionsStreamController.add(results);
+    };
+
+    final timer = Timer.periodic(const Duration(milliseconds: 300), (_) {
+      debouncer.value = searchTerm;
+    });
+
+    Future.delayed(const Duration(milliseconds: 301))
+        .then((_) => timer.cancel());
+  }
 }
