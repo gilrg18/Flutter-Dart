@@ -7,13 +7,21 @@ class MovieSearchDelegate extends SearchDelegate {
   @override
   List<Widget>? buildActions(BuildContext context) {
     return [
-      const Text('buildActions'),
+      IconButton(
+        icon: const Icon(Icons.clear),
+        onPressed: () => query = '',
+      ),
     ];
   }
 
   @override
   Widget? buildLeading(BuildContext context) {
-    return const Text('buildLeading');
+    return IconButton(
+      icon: const Icon(Icons.arrow_back),
+      onPressed: () {
+        close(context, null);
+      },
+    );
   }
 
   @override
@@ -24,6 +32,18 @@ class MovieSearchDelegate extends SearchDelegate {
   @override
   Widget buildSuggestions(BuildContext context) {
     //query viene con el SearchDelegate, es lo que escribes en el input box
-    return Text('buildSuggestions $query');
+    if (query.isEmpty) {
+      return Container(
+        child: const Center(
+          child: Icon(
+            Icons.movie_creation_outlined,
+            color: Colors.black38,
+            size: 130,
+          ),
+        ),
+      );
+    }
+
+    return Container();
   }
 }
