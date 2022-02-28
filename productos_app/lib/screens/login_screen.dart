@@ -1,6 +1,10 @@
+// ignore_for_file: avoid_unnecessary_containers
+
 import 'package:flutter/material.dart';
+import 'package:productos_app/providers/login_form_provider.dart';
 import 'package:productos_app/ui/input_decorations.dart';
 import 'package:productos_app/widgets/widgets.dart';
+import 'package:provider/provider.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -21,7 +25,13 @@ class LoginScreen extends StatelessWidget {
                     const SizedBox(height: 10),
                     Text('Login', style: Theme.of(context).textTheme.headline4),
                     const SizedBox(height: 30),
-                    const _LoginForm(),
+                    ChangeNotifierProvider(
+                      create: (_) => LoginFormProvider(),
+                      child: const _LoginForm(),
+                      //create crea una instancia del loginformprovider que puede redibujar
+                      //los widgets cuando sea necesario y solo vive dentro del scope del child
+                      //_LoginForm()
+                    ),
                   ],
                 ),
               ),
@@ -44,9 +54,11 @@ class _LoginForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final loginForm = Provider.of<LoginFormProvider>(context);
+
     return Container(
       child: Form(
-        //TODO: mantener la referencia al KEY
+        key: loginForm.formKey,
         autovalidateMode: AutovalidateMode.onUserInteraction,
         child: Column(
           children: [
@@ -58,6 +70,7 @@ class _LoginForm extends StatelessWidget {
                 labelText: 'Correo electronico',
                 prefixIcon: Icons.alternate_email_sharp,
               ),
+              onChanged: (value) => loginForm.email = value,
               validator: (value) {
                 //value es el valor del input
                 String pattern =
@@ -77,6 +90,7 @@ class _LoginForm extends StatelessWidget {
                 labelText: 'Contraseña',
                 prefixIcon: Icons.lock_outline,
               ),
+              onChanged: (value) => loginForm.password = value,
               validator: (value) {
                 return (value != null && value.length >= 6)
                     ? null
@@ -97,7 +111,11 @@ class _LoginForm extends StatelessWidget {
                     style: TextStyle(color: Colors.white)),
               ),
               onPressed: () {
-                //TODO: Login form
+                if (!loginForm.isValidForm()) return;
+
+                Navigator.pushReplacementNamed(context, 'home');
+                //pushReplacedmentNamed va a destruir el stack de las pantallas
+                //y va a dejar la nueva pantalla ahi, no puedes regresar a la pantalla de login
               },
             )
           ],
