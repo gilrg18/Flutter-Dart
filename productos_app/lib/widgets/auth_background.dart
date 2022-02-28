@@ -1,7 +1,14 @@
+// ignore_for_file: sized_box_for_whitespace
+
 import 'package:flutter/material.dart';
 
 class AuthBackground extends StatelessWidget {
-  const AuthBackground({Key? key}) : super(key: key);
+  const AuthBackground({
+    Key? key,
+    required this.child,
+  }) : super(key: key);
+
+  final Widget child;
 
   @override
   Widget build(BuildContext context) {
@@ -10,10 +17,34 @@ class AuthBackground extends StatelessWidget {
       width: double.infinity,
       height: double.infinity,
       child: Stack(
-        children: const [
-          _PurpleBox(),
+        children: [
+          const _PurpleBox(),
+          const _HeaderIcon(),
+          child,
         ],
       ), //stack coloca widgets uno encima de otro
+    );
+  }
+}
+
+class _HeaderIcon extends StatelessWidget {
+  const _HeaderIcon({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+      //Safe area por si el celular tiene una madre negra tapando la pantalla
+      child: Container(
+        width: double.infinity,
+        margin: const EdgeInsets.only(top: 50),
+        child: const Icon(
+          Icons.person_pin,
+          color: Colors.white,
+          size: 100,
+        ),
+      ),
     );
   }
 }
@@ -30,12 +61,10 @@ class _PurpleBox extends StatelessWidget {
       decoration: _purpleBackground(),
       child: Stack(
         children: const [
-          Positioned(child: _Bubble(), top: 90, left: 60),
-          Positioned(child: _Bubble(), top: 90, left: 240),
-          Positioned(child: _Bubble(), top: 90, right: 20),
-          Positioned(child: _Bubble(), bottom: 40, left: 20),
-          Positioned(child: _Bubble(), bottom: 40, left: 200),
-          Positioned(child: _Bubble(), bottom: 40, right: 60),
+          Positioned(child: _Bubble(), top: 70, left: 40),
+          Positioned(child: _Bubble(), top: 110, right: 40),
+          Positioned(child: _Bubble(), bottom: 20, left: 40),
+          Positioned(child: _Bubble(), bottom: -40, right: 40),
         ],
       ),
     );
