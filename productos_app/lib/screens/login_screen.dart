@@ -107,16 +107,32 @@ class _LoginForm extends StatelessWidget {
               child: Container(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 80, vertical: 15),
-                child: const Text('Ingresar',
-                    style: TextStyle(color: Colors.white)),
+                child: Text(
+                  loginForm.isLoading ? 'Espere' : 'Ingresar',
+                  style: const TextStyle(
+                    color: Colors.white,
+                  ),
+                ),
               ),
-              onPressed: () {
-                if (!loginForm.isValidForm()) return;
+              onPressed: loginForm.isLoading
+                  ? null
+                  : () async {
+                      //quitar teclado
+                      FocusScope.of(context).unfocus();
 
-                Navigator.pushReplacementNamed(context, 'home');
-                //pushReplacedmentNamed va a destruir el stack de las pantallas
-                //y va a dejar la nueva pantalla ahi, no puedes regresar a la pantalla de login
-              },
+                      if (!loginForm.isValidForm()) return;
+
+                      loginForm.isLoading = true;
+
+                      await Future.delayed(const Duration(seconds: 3));
+
+                      //TODO: validar si el login es correcto
+                      loginForm.isLoading = false;
+
+                      Navigator.pushReplacementNamed(context, 'home');
+                      //pushReplacedmentNamed va a destruir el stack de las pantallas
+                      //y va a dejar la nueva pantalla ahi, no puedes regresar a la pantalla de login
+                    },
             )
           ],
         ),
