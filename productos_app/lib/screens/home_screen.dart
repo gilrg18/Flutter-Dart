@@ -14,9 +14,12 @@ class HomeScreen extends StatelessWidget {
       //y no los va a mantener todos activos si no estan en pantalla
 
       body: ListView.builder(
-        itemCount: 10,
-        itemBuilder: (BuildContext context, int index) => const ProductCard(),
-      ),
+          itemCount: 10,
+          itemBuilder: (BuildContext context, int index) => GestureDetector(
+                //GestureDetector para cuando le piques a cada tarjeta te muestre la pantalla con detalles
+                onTap: () => Navigator.pushNamed(context, 'product'),
+                child: const ProductCard(),
+              )),
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.add),
         onPressed: () {},
