@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:productos_app/screens/screens.dart';
 import 'package:productos_app/services/services.dart';
 import 'package:productos_app/widgets/widgets.dart';
 import 'package:provider/provider.dart';
@@ -10,6 +11,8 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     //leer productsService
     final productsService = Provider.of<ProductsService>(context);
+
+    if (productsService.isLoading) return const LoadingScreen();
     return Scaffold(
       appBar: AppBar(
         title: const Center(child: Text('Productos')),
@@ -18,11 +21,11 @@ class HomeScreen extends StatelessWidget {
       //y no los va a mantener todos activos si no estan en pantalla
 
       body: ListView.builder(
-          itemCount: 10,
+          itemCount: productsService.products.length,
           itemBuilder: (BuildContext context, int index) => GestureDetector(
                 //GestureDetector para cuando le piques a cada tarjeta te muestre la pantalla con detalles
                 onTap: () => Navigator.pushNamed(context, 'product'),
-                child: const ProductCard(),
+                child: ProductCard(product: productsService.products[index]),
               )),
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.add),

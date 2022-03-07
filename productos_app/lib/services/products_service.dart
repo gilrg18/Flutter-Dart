@@ -16,7 +16,9 @@ class ProductsService extends ChangeNotifier {
 
   //ctrl shift  p, add pubpspec dependencies, http
   //Fetch de productos
-  Future loadProducts() async {
+  Future<List<Product>> loadProducts() async {
+    isLoading = true;
+    notifyListeners(); //para notificar a cualquier otro widget que le interese saber cuando estamos cargando y se redibujen si isLoading cambia
     final url = Uri.https(_baseUrl, 'products.json');
     final response = await http.get(url);
     //response.body is a string
@@ -27,5 +29,8 @@ class ProductsService extends ChangeNotifier {
       products.add(tempProduct);
     });
     //print(this.products[0].name);
+    isLoading = false;
+    notifyListeners();
+    return products;
   }
 }
