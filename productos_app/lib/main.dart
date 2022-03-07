@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:productos_app/screens/screens.dart';
 import 'package:productos_app/services/services.dart';
 
-void main() => runApp(const MyApp());
+void main() => runApp(const AppState());
 
 class AppState extends StatelessWidget {
   const AppState({Key? key}) : super(key: key);

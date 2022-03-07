@@ -17,7 +17,7 @@ class Product {
   String name;
   String? picture;
   double price;
-
+  String? id;
   //toma un string y genera una instancia de nuestro producto
   factory Product.fromJson(String str) => Product.fromMap(json.decode(str));
   //json para mandarlo al servidor
