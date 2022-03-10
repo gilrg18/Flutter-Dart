@@ -12,6 +12,12 @@ class ProductFormProvider extends ChangeNotifier {
   //porque todos los objetos pasan por referencia
   ProductFormProvider(this.product);
 
+  updateAvailability(bool value) {
+    print(value);
+    product.available = value;
+    notifyListeners();
+  }
+
   bool isValidForm() {
     //si regresa null (??) va a ser false
     return formKey.currentState?.validate() ?? false;
