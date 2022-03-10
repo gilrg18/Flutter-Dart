@@ -58,7 +58,10 @@ class ProductsService extends ChangeNotifier {
     final decodedData = response.body;
 
     print(decodedData);
-    //actualizar listado de productos
+    //actualizar el producto en el listado de productos:
+    //indice del id del producto que estoy recibiendo
+    final index = products.indexWhere((element) => element.id == product.id);
+    products[index] = product; //reemplazar/actualizar el producto
     return product.id!;
   }
 }
