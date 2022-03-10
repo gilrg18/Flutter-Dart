@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'package:flutter/material.dart';
 import 'package:productos_app/models/models.dart';
 
@@ -13,12 +15,14 @@ class ProductFormProvider extends ChangeNotifier {
   ProductFormProvider(this.product);
 
   updateAvailability(bool value) {
-    print(value);
     product.available = value;
     notifyListeners();
   }
 
   bool isValidForm() {
+    print(product.name);
+    print(product.price);
+    print(product.available);
     //si regresa null (??) va a ser false
     return formKey.currentState?.validate() ?? false;
   }

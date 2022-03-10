@@ -9,6 +9,7 @@ class ProductsService extends ChangeNotifier {
   final List<Product> products = [];
   //es final porque nunca se va a destruir y volverse a crear el objeto, solo vamos a editar sus valores internos
   bool isLoading = true;
+  bool isSaving = false;
   //late porque al principio no va a tener un valor, si no hasta que selecciones un producto
   late Product selectedProduct;
 
@@ -34,5 +35,30 @@ class ProductsService extends ChangeNotifier {
     isLoading = false;
     notifyListeners();
     return products;
+  }
+
+  Future saveOrCreateProduct(Product product) async {
+    isSaving = true;
+    notifyListeners();
+    //si no tengo id, no tengo producto, crear producto
+    if (product.id == null) {
+    } else {
+      //actualizar
+      await updateProduct(product);
+    }
+
+    isSaving = false;
+    notifyListeners();
+  }
+
+  Future<String> updateProduct(Product product) async {
+    //https://flutter-backend-38f00-default-rtdb.firebaseio.com/products/ABC123
+    final url = Uri.https(_baseUrl, 'products/${product.id}.json');
+    final response = await http.put(url, body: product.toJson());
+    final decodedData = response.body;
+
+    print(decodedData);
+    //actualizar listado de productos
+    return product.id!;
   }
 }

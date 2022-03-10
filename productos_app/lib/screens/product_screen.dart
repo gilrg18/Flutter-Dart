@@ -31,6 +31,7 @@ class _ProductScreenBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final productForm = Provider.of<ProductFormProvider>(context);
     return Scaffold(
       body: SingleChildScrollView(
         //quitar teclado al scrollear
@@ -77,7 +78,11 @@ class _ProductScreenBody extends StatelessWidget {
         padding: const EdgeInsets.only(bottom: 5),
         child: FloatingActionButton(
           child: const Icon(Icons.save_outlined),
-          onPressed: () {},
+          onPressed: () async {
+            if (!productForm.isValidForm()) return;
+
+            await productService.saveOrCreateProduct(productForm.product);
+          },
         ),
       ),
     );
@@ -98,9 +103,11 @@ class _ProductForm extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 15),
         width: double.infinity,
-        height: 280,
+        height: 300,
         decoration: _buildBoxDecoration(),
         child: Form(
+          key: productForm.formKey,
+          autovalidateMode: AutovalidateMode.onUserInteraction,
           child: Column(
             children: [
               const SizedBox(height: 10),
