@@ -3,6 +3,8 @@
 //
 //     final product = productFromMap(jsonString);
 
+// ignore_for_file: unnecessary_this
+
 import 'dart:convert';
 
 class Product {
@@ -11,6 +13,7 @@ class Product {
     required this.name,
     this.picture,
     required this.price,
+    this.id,
   });
 
   bool available;
@@ -36,4 +39,15 @@ class Product {
         "picture": picture,
         "price": price,
       };
+
+  //hacemos una copia para romper la referencia original del arreglo products
+  //para que no lo afecte al hacer modificaciones al producto origunal
+  //hasta que se le de guardar
+  Product copy() => Product(
+        available: this.available,
+        name: this.name,
+        picture: this.picture,
+        price: this.price,
+        id: this.id,
+      );
 }

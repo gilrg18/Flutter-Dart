@@ -9,6 +9,8 @@ class ProductsService extends ChangeNotifier {
   final List<Product> products = [];
   //es final porque nunca se va a destruir y volverse a crear el objeto, solo vamos a editar sus valores internos
   bool isLoading = true;
+  //late porque al principio no va a tener un valor, si no hasta que selecciones un producto
+  late Product selectedProduct;
 
   ProductsService() {
     loadProducts();
