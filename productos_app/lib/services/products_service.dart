@@ -40,8 +40,9 @@ class ProductsService extends ChangeNotifier {
   Future saveOrCreateProduct(Product product) async {
     isSaving = true;
     notifyListeners();
-    //si no tengo id, no tengo producto, crear producto
+    //si no tengo id, no tengo producto, crear producto y id
     if (product.id == null) {
+      await createProduct(product);
     } else {
       //actualizar
       await updateProduct(product);
@@ -52,16 +53,30 @@ class ProductsService extends ChangeNotifier {
   }
 
   Future<String> updateProduct(Product product) async {
-    //https://flutter-backend-38f00-default-rtdb.firebaseio.com/products/ABC123
+    //https://flutter-backend-38f00-default-rtdb.firebaseio.com/products/ABC123.json
     final url = Uri.https(_baseUrl, 'products/${product.id}.json');
     final response = await http.put(url, body: product.toJson());
+    // ignore: unused_local_variable
     final decodedData = response.body;
 
-    print(decodedData);
+    //print(decodedData);
     //actualizar el producto en el listado de productos:
     //indice del id del producto que estoy recibiendo
     final index = products.indexWhere((element) => element.id == product.id);
     products[index] = product; //reemplazar/actualizar el producto
+    return product.id!;
+  }
+
+  Future<String> createProduct(Product product) async {
+    //https://flutter-backend-38f00-default-rtdb.firebaseio.com/products.json
+    final url = Uri.https(_baseUrl, 'products.json');
+    final response = await http.post(url, body: product.toJson());
+
+    //response.body es un string, convertir a mapa para poder asignar 'name' al product.id
+    final decodedData = json.decode(response.body);
+    //print(decodedData); //{"name":"-Mxrsk-Erl-mMj8d_Xht"} fb crea ese id
+    product.id = decodedData['name']; // asignar 'name' al product.id
+    products.add(product); //agregar producto nuevo al products
     return product.id!;
   }
 }
