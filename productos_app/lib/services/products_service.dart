@@ -125,6 +125,6 @@ class ProductsService extends ChangeNotifier {
     final decodedData = json.decode(resp.body);
     return decodedData['secure_url'];
 
-    print('Respuesta de cloudinary: ${resp.body}');
+    //print('Respuesta de cloudinary: ${resp.body}');
   }
 }

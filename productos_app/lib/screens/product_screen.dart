@@ -67,9 +67,10 @@ class _ProductScreenBody extends StatelessWidget {
                       //image picker instance
                       final picker = ImagePicker();
                       final XFile? pickedFile = await picker.pickImage(
-                        source: ImageSource.camera,
+                        //para tomar foto con camara
+                        //source: ImageSource.camera,
                         //para escoger imagen de la galeria:
-                        //source : ImageSource.gallery
+                        source: ImageSource.gallery,
                         imageQuality: 100,
                       );
                       if (pickedFile == null) {
@@ -95,18 +96,23 @@ class _ProductScreenBody extends StatelessWidget {
       floatingActionButton: Padding(
         padding: const EdgeInsets.only(bottom: 5),
         child: FloatingActionButton(
-          child: const Icon(Icons.save_outlined),
-          onPressed: () async {
-            if (!productForm.isValidForm()) return;
+          child: productService
+                  .isSaving //si esta guardando deshabilitar boton y poner otro icono
+              ? const CircularProgressIndicator(color: Colors.white)
+              : const Icon(Icons.save_outlined),
+          onPressed: productService.isSaving
+              ? null // null para deshabilitar boton mientras esta guardando
+              : () async {
+                  if (!productForm.isValidForm()) return;
 
-            final String? imageUrl = await productService.uploadImage();
+                  final String? imageUrl = await productService.uploadImage();
+                  //si no es nulo, agregar imagen al producto en firebase db
+                  if (imageUrl != null) productForm.product.picture = imageUrl;
 
-            print(imageUrl);
+                  await productService.saveOrCreateProduct(productForm.product);
 
-            await productService.saveOrCreateProduct(productForm.product);
-
-            Navigator.pop(context); //cerrar product screen pa regresar a home
-          },
+                  //Navigator.pop(context); //cerrar product screen pa regresar a home
+                },
         ),
       ),
     );
@@ -127,7 +133,7 @@ class _ProductForm extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 15),
         width: double.infinity,
-        height: 300,
+        height: 310,
         decoration: _buildBoxDecoration(),
         child: Form(
           key: productForm.formKey,
