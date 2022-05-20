@@ -92,4 +92,39 @@ class ProductsService extends ChangeNotifier {
     //en este caso la pantalla de editar producto en la imagen que quiero cambiar/agregar
     notifyListeners();
   }
+
+  Future<String?> uploadImage() async {
+    if (newPictureFile == null) return null;
+
+    isSaving = true;
+    notifyListeners();
+
+    //api que calamos en postman de cloudinary
+    final url = Uri.parse(
+        'https://api.cloudinary.com/v1_1/dblbqaoe7/image/upload?upload_preset=ck7ayane');
+    //crear request y asignar el parametro file
+    final imageUploadRequest = http.MultipartRequest('POST', url);
+    //adjuntar archivo al request en el parametro 'file' (cimo en postman)
+    //newPictureFile puede ser nulo pero como ya hice la evaluacion previamente
+    //se que tengo el archivo y por eso el newPictureFile!
+    final file =
+        await http.MultipartFile.fromPath('file', newPictureFile!.path);
+    //adjuntar file a imageUploadRequest
+    imageUploadRequest.files.add(file);
+    //disparar la peticion (streamResponse: respuesta de la peticion)
+    final streamResponse = await imageUploadRequest.send();
+    final resp = await http.Response.fromStream(streamResponse);
+
+    if (resp.statusCode != 200 && resp.statusCode != 201) {
+      print('algo salio mal');
+      print(resp.body);
+      return null;
+    }
+
+    newPictureFile = null;
+    final decodedData = json.decode(resp.body);
+    return decodedData['secure_url'];
+
+    print('Respuesta de cloudinary: ${resp.body}');
+  }
 }
