@@ -21,17 +21,23 @@ class HomeScreen extends StatelessWidget {
       //listView.builder, crea los widgets cuando esten cerca de entrar a la pantalla
       //y no los va a mantener todos activos si no estan en pantalla
 
-      body: ListView.builder(
-          itemCount: productsService.products.length,
-          itemBuilder: (BuildContext context, int index) => GestureDetector(
-                //GestureDetector para cuando le piques a cada tarjeta te muestre la pantalla con detalles
-                onTap: () {
-                  productsService.selectedProduct =
-                      productsService.products[index].copy();
-                  Navigator.pushNamed(context, 'product');
-                },
-                child: ProductCard(product: productsService.products[index]),
-              )),
+      body: RefreshIndicator(
+        onRefresh: () async {
+          productsService.products.clear();
+          await productsService.loadProducts();
+        },
+        child: ListView.builder(
+            itemCount: productsService.products.length,
+            itemBuilder: (BuildContext context, int index) => GestureDetector(
+                  //GestureDetector para cuando le piques a cada tarjeta te muestre la pantalla con detalles
+                  onTap: () {
+                    productsService.selectedProduct =
+                        productsService.products[index].copy();
+                    Navigator.pushNamed(context, 'product');
+                  },
+                  child: ProductCard(product: productsService.products[index]),
+                )),
+      ),
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.add),
         onPressed: () {
