@@ -77,7 +77,9 @@ class _ProductScreenBody extends StatelessWidget {
                         return;
                       }
 
-                      print('Tenemos imagen ${pickedFile.path}');
+                      //print('Tenemos imagen ${pickedFile.path}');
+                      productService
+                          .updateSelectedProductImage(pickedFile.path);
                     },
                   ),
                 ),

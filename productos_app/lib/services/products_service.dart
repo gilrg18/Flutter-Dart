@@ -1,13 +1,16 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:productos_app/models/models.dart';
 import 'package:http/http.dart' as http;
 
 class ProductsService extends ChangeNotifier {
+  //es final porque nunca se va a destruir y volverse a crear el objeto, solo vamos a editar sus valores internos
   final String _baseUrl = 'flutter-backend-38f00-default-rtdb.firebaseio.com';
   final List<Product> products = [];
-  //es final porque nunca se va a destruir y volverse a crear el objeto, solo vamos a editar sus valores internos
+  //file opcional, puede que la tenga  o no (dart.io)
+  File? newPictureFile;
   bool isLoading = true;
   bool isSaving = false;
   //late porque al principio no va a tener un valor, si no hasta que selecciones un producto
@@ -78,5 +81,15 @@ class ProductsService extends ChangeNotifier {
     product.id = decodedData['name']; // asignar 'name' al product.id
     products.add(product); //agregar producto nuevo al products
     return product.id!;
+  }
+
+  //metodo para mostrar la imagen seleccionada
+  void updateSelectedProductImage(String path) {
+    selectedProduct.picture = path;
+    newPictureFile = File.fromUri(Uri(path: path));
+
+    //para volver a dibujar (redibujar) los widgets que estan relacionados con el products_service
+    //en este caso la pantalla de editar producto en la imagen que quiero cambiar/agregar
+    notifyListeners();
   }
 }
