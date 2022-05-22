@@ -1,3 +1,4 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:notificaciones/screens/home_screen.dart';
 import 'package:notificaciones/screens/message_screen.dart';
