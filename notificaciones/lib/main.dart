@@ -14,8 +14,23 @@ void main() async {
   runApp(MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  @override
+  void initState() {
+    super.initState();
+
+    //Context
+    PushNotificationService.messagesStream.listen((message) {
+      print('MyApp: $message');
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
