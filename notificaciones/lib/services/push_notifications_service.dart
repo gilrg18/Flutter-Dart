@@ -12,27 +12,36 @@ class PushNotificationService {
   static String? token;
   //es un string pero puede ser lo que quieras (mapas,lista, etc)
   // ignore: prefer_final_fields
-  static StreamController<String> _messageStream = StreamController.broadcast();
+  static StreamController<Map<String, dynamic>> _messageStream =
+      StreamController.broadcast();
   //con este get solo expongo el stream y la gente se puede suscribir a el o estar escuchandolo muy facilmente
   //nos suscribimos en el main.dart donde dice //Context
-  static Stream<String> get messagesStream => _messageStream.stream;
+  static Stream<Map<String, dynamic>> get messagesStream =>
+      _messageStream.stream;
 
   //Escuchar notificaciones - onBackground, onMessage on OpenedApp
   static Future _backgroundHandler(RemoteMessage message) async {
     print('onBackground Handler ${message.data}');
     //cuando recibo una notificacion, lo agrego al stream (por ahora solo es el titulo de la notificacion)
     //product esta en el firebase
-    _messageStream.add(message.data['product'] ?? 'No title');
+    //cuando la app esta en el background
+    _messageStream.add(message.data);
+    // _messageStream.add(message.data['product'] ?? 'No title');
+    // _messageStream.add(message.data['precio'] ?? 'No title');
   }
 
   static Future _onMessageHandler(RemoteMessage message) async {
     print('onMessage Handler ${message.data}');
-    _messageStream.add(message.data['product'] ?? 'No title');
+    //cuando esta abierta la app y las estas viendo en el cel
+    _messageStream.add(message.data);
   }
 
   static Future _onMessageOpenApp(RemoteMessage message) async {
     print('onMessageOpenApp Handler ${message.data}');
-    _messageStream.add(message.data['product'] ?? 'No title');
+    //cuando le picas al mensaje de la notificacion y abre la app
+    _messageStream.add(message.data);
+    // _messageStream.add(message.data['product'] ?? 'No title');
+    // _messageStream.add(message.data['precio'] ?? 'No title');
   }
 
   static Future initializeApp() async {

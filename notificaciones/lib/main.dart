@@ -32,26 +32,34 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
 
+    //para cuando la app este completamente cerrada
     PushNotificationService.messaging
         .getInitialMessage()
         .then((RemoteMessage? message) {
       if (message != null) {
+        print('MyApp: ${message.data}');
+
+        navigatorKey.currentState
+            ?.pushNamed('message', arguments: message.data);
         final snackBar = SnackBar(content: Text(message.data['product']));
         messengerKey.currentState?.showSnackBar(snackBar);
-        navigatorKey.currentState
-            ?.pushNamed('message', arguments: message.data['product']);
       }
     });
 
     //Context
     PushNotificationService.messagesStream.listen((message) {
-      print('MyApp: $message');
+      print('MyApp Gil: $message');
 
       //Navigator.pushNamed(context, 'message');
       //para ir a la pantalla de mensajes cuando llega la notificacion
       navigatorKey.currentState?.pushNamed('message', arguments: message);
       //snackbar es un mensaje abajo de la pantalla
-      final snackBar = SnackBar(content: Text(message));
+      //Para mostrar todos los datos en el snackbar, (no es necesario, con el nombre del producto esta bien)
+      // for (var v in message.values) {
+      //   final snackBar = SnackBar(content: Text(v));
+      //   messengerKey.currentState?.showSnackBar(snackBar);
+      // }
+      final snackBar = SnackBar(content: Text(message["product"]));
       messengerKey.currentState?.showSnackBar(snackBar);
     });
   }
