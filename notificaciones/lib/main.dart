@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:notificaciones/screens/home_screen.dart';
@@ -29,6 +31,17 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
+
+    PushNotificationService.messaging
+        .getInitialMessage()
+        .then((RemoteMessage? message) {
+      if (message != null) {
+        final snackBar = SnackBar(content: Text(message.data['product']));
+        messengerKey.currentState?.showSnackBar(snackBar);
+        navigatorKey.currentState
+            ?.pushNamed('message', arguments: message.data['product']);
+      }
+    });
 
     //Context
     PushNotificationService.messagesStream.listen((message) {
