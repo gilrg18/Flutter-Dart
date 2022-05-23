@@ -21,17 +21,18 @@ class PushNotificationService {
   static Future _backgroundHandler(RemoteMessage message) async {
     print('onBackground Handler ${message.data}');
     //cuando recibo una notificacion, lo agrego al stream (por ahora solo es el titulo de la notificacion)
-    _messageStream.add(message.notification?.title ?? 'No title');
+    //product esta en el firebase
+    _messageStream.add(message.data['product'] ?? 'No title');
   }
 
   static Future _onMessageHandler(RemoteMessage message) async {
     print('onMessage Handler ${message.data}');
-    _messageStream.add(message.notification?.title ?? 'No title');
+    _messageStream.add(message.data['product'] ?? 'No title');
   }
 
   static Future _onMessageOpenApp(RemoteMessage message) async {
     print('onMessageOpenApp Handler ${message.data}');
-    _messageStream.add(message.notification?.title ?? 'No title');
+    _messageStream.add(message.data['product'] ?? 'No title');
   }
 
   static Future initializeApp() async {
